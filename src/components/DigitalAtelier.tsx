@@ -38,14 +38,12 @@ const DigitalAtelier = () => {
                 className="flex flex-col items-center gap-2 group"
               >
                 <div
-                  className={`w-10 h-10 rounded-full border-2 transition-all duration-300 ${
-                    activeColor === i ? "border-primary scale-110" : "border-border hover:border-muted-foreground"
-                  }`}
+                  className={`w-10 h-10 rounded-full border-2 transition-all duration-300 ${activeColor === i ? "border-primary scale-110" : "border-border hover:border-muted-foreground"
+                    }`}
                   style={{ backgroundColor: `hsl(${color.hsl})` }}
                 />
-                <span className={`text-[10px] tracking-widest uppercase transition-colors ${
-                  activeColor === i ? "text-foreground" : "text-muted-foreground"
-                }`}>
+                <span className={`text-[10px] tracking-widest uppercase transition-colors ${activeColor === i ? "text-foreground" : "text-muted-foreground"
+                  }`}>
                   {color.name}
                 </span>
               </button>
@@ -60,8 +58,6 @@ const DigitalAtelier = () => {
       >
         <div className="flex items-center gap-1">
           <DockButton icon={Palette} label="Color" onClick={() => setExpanded(!expanded)} active={expanded} />
-          <DockButton icon={Settings2} label="Wheels" />
-          <DockButton icon={Maximize2} label="Interior" />
           <DockButton icon={RotateCcw} label="360°" />
         </div>
 
@@ -70,9 +66,6 @@ const DigitalAtelier = () => {
             <p className="text-xs text-muted-foreground tracking-wider">Starting from</p>
             <p className="text-sm font-medium tracking-tight">€ 189,900</p>
           </div>
-          <button className="bg-primary text-primary-foreground text-xs font-semibold tracking-widest uppercase px-6 py-2.5 rounded-lg hover:bg-primary/90 transition-colors">
-            Configure
-          </button>
         </div>
       </div>
     </motion.div>
@@ -92,9 +85,8 @@ const DockButton = ({
 }) => (
   <button
     onClick={onClick}
-    className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${
-      active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
-    }`}
+    className={`flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors ${active ? "bg-secondary text-foreground" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+      }`}
   >
     <Icon className="w-4 h-4" />
     <span className="text-[9px] tracking-widest uppercase">{label}</span>

@@ -5,37 +5,37 @@ const specs = [
   {
     icon: Zap,
     title: "Dual Motor AWD",
-    desc: "Instant torque delivery with intelligent all-wheel drive distribution",
+    desc: "Experience instantaneous torque delivery powered by an 800-volt architecture. Our intelligent all-wheel drive system dynamically distributes power between the front and rear axles in milliseconds, ensuring maximum traction and breathtaking acceleration under any conditions.",
     span: "col-span-2",
   },
   {
     icon: Battery,
     title: "120 kWh Battery",
-    desc: "Solid-state architecture",
+    desc: "Next-generation solid-state cell architecture. Features advanced thermal management for consistent performance output and ultra-fast charging capabilities up to 350 kW, enabling 10-80% charge in just 15 minutes.",
     span: "",
   },
   {
     icon: Gauge,
     title: "340 km/h",
-    desc: "Top speed, electronically limited",
+    desc: "Electronically limited top speed achieved through a sophisticated two-speed transmission on the rear axle, optimizing both efficiency at cruising speeds and raw performance during maximum acceleration.",
     span: "",
   },
   {
     icon: Wind,
     title: "0.19 Cd",
-    desc: "Active aerodynamics with adaptive wing",
+    desc: "Class-leading aerodynamic efficiency. Active aerodynamics automatically adapt the rear wing and cooling flaps based on speed and driving mode to minimize drag or maximize downforce when needed.",
     span: "",
   },
   {
     icon: Shield,
     title: "Carbon Monocoque",
-    desc: "Full carbon fiber construction",
+    desc: "Motorsport-derived full carbon fiber monocoque construction. This provides exceptional torsional rigidity and side-impact protection while significantly reducing overall vehicle weight for unmatched agility.",
     span: "",
   },
   {
     icon: Cpu,
     title: "Neural Drive",
-    desc: "AI-powered driving dynamics with predictive chassis control and real-time adaptation",
+    desc: "The nerve center of the Aura. AI-powered driving dynamics utilize predictive chassis control, analyzing road conditions via LiDAR and camera arrays to adjust the adaptive air suspension in real-time, delivering the perfect balance of comfort and precise handling.",
     span: "col-span-2",
   },
 ];

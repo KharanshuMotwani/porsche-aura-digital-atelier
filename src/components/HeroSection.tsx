@@ -2,7 +2,13 @@ import { motion, useScroll, useTransform, animate } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import porscheHero from "@/assets/porsche-hero.png";
 
-const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; onRevSound: () => void }) => {
+type HeroSectionProps = {
+  onStartSound: () => void;
+  onRevSound: () => void;
+  onStartTestDrive?: () => void;
+};
+
+const HeroSection = ({ onStartSound, onRevSound, onStartTestDrive }: HeroSectionProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const [launchTriggered, setLaunchTriggered] = useState(false);
   const [zeroToHundredValue, setZeroToHundredValue] = useState(0);
@@ -33,7 +39,7 @@ const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; o
     <section ref={sectionRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent" />
-      
+
       {/* Gold ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-primary/5 blur-[120px]" />
 
@@ -46,9 +52,7 @@ const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; o
       >
         <span className="text-lg font-bold tracking-[0.3em] uppercase gold-text">Porsche</span>
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground tracking-widest uppercase">
-          <span className="hover:text-foreground transition-colors cursor-pointer">Models</span>
-          <span className="hover:text-foreground transition-colors cursor-pointer">Experience</span>
-          <span className="hover:text-foreground transition-colors cursor-pointer">Configure</span>
+
         </div>
         <span className="text-sm text-muted-foreground tracking-[0.2em] uppercase">Aura</span>
       </motion.nav>
@@ -59,7 +63,7 @@ const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; o
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-xs tracking-[0.5em] uppercase text-muted-foreground mb-6"
+          className="text-xs tracking-[0.5em] uppercase text-muted-foreground mb-6 mt-16"
         >
           The New Standard
         </motion.p>
@@ -83,22 +87,57 @@ const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; o
         </motion.p>
       </motion.div>
 
-      {/* Hero car image with parallax */}
+      {/* Hero car image with strict cinematic load animation */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
+        initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, delay: 1.3, ease: "easeOut" }}
+        transition={{ duration: 4, ease: "easeOut" }} // Subtle 2% push-in over 4s
         style={{ y: carY, scale: carScale }}
-        className="relative z-10 w-full max-w-5xl mx-auto mt-[-2rem] px-4 cursor-pointer"
+        className="relative z-10 w-full max-w-5xl mx-auto mt-[-2rem] px-4 cursor-pointer overflow-hidden"
         onClick={onStartSound}
       >
-        <img
+        {/* The Car Image */}
+        <motion.img
           src={porscheHero}
           alt="Porsche Aura concept car"
-          className="w-full h-auto object-contain"
+          className="w-full h-auto object-contain relative z-10"
+          initial={{ filter: "brightness(0) contrast(1.2)" }}
+          animate={{ filter: "brightness(1) contrast(1)" }}
+          transition={{ duration: 3, delay: 0.5, ease: "easeInOut" }}
         />
-        {/* Reflection fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-background to-transparent" />
+
+        {/* Thin Gold Light Sweep */}
+        <motion.div
+          className="absolute inset-0 z-20 top-[40%] h-[20%] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent blur-xl mix-blend-screen"
+          initial={{ x: "-100%", opacity: 0 }}
+          animate={{ x: "100%", opacity: [0, 1, 0] }}
+          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.2 }}
+        />
+
+        {/* Headlight power on effect - Cool white glow */}
+        <motion.div
+          className="absolute inset-0 z-20 flex justify-between px-[20%]"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5, delay: 1.5, ease: "easeOut" }}
+        >
+          <div className="w-24 h-24 bg-blue-50/20 rounded-full blur-[30px] mix-blend-screen" />
+          <div className="w-24 h-24 bg-blue-50/20 rounded-full blur-[30px] mix-blend-screen" />
+        </motion.div>
+
+        {/* Shimmering Gold Accents */}
+        <motion.div
+          className="absolute inset-0 z-20 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: [0, 0.4, 0.1, 0.3] }}
+          transition={{ duration: 4, times: [0, 0.3, 0.6, 1], repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+        >
+          <div className="absolute top-[42%] left-[28%] w-16 h-8 bg-[#D4AF37]/20 blur-xl rounded-full mix-blend-screen" />
+          <div className="absolute top-[42%] right-[28%] w-16 h-8 bg-[#D4AF37]/20 blur-xl rounded-full mix-blend-screen" />
+        </motion.div>
+
+        {/* Reflection fade at the bottom to blend seamlessly into black */}
+        <div className="absolute bottom-0 left-0 right-0 h-1/3 z-30 bg-gradient-to-t from-background to-transparent pointer-events-none" />
       </motion.div>
 
       {/* Stats bar - 2.1s (with fill), 750 PS, Launch button, 610 km */}
@@ -149,6 +188,22 @@ const HeroSection = ({ onStartSound, onRevSound }: { onStartSound: () => void; o
         >
           Launch
         </motion.button>
+
+        {/* Virtual Test Drive - hold W to drive */}
+        {onStartTestDrive && (
+          <motion.button
+            type="button"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2.2 }}
+            onClick={onStartTestDrive}
+            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/5 text-white/80 text-xs md:text-sm font-medium tracking-widest uppercase hover:bg-white/10 hover:border-primary/50 hover:text-primary backdrop-blur-sm transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Virtual Test Drive
+          </motion.button>
+        )}
       </motion.div>
 
     </section>
