@@ -12,12 +12,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SoundToggle onToggle={setEnabled} />
-      <HeroSection onStartSound={playStart} />
+      <HeroSection onStartSound={playStart} onRevSound={playRev} />
       <BentoGrid />
       <ExperienceSection onRevSound={playRev} />
       <PersonalizedJourney onRevSound={playRev} />
       {/* Spacer for fixed dock */}
-      <div className="h-32" />
+      <div className="h-16" />
       <DigitalAtelier />
     </div>
   );

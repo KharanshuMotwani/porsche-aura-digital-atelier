@@ -1,6 +1,6 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
-import { Play, Eye, Gauge, Wind } from "lucide-react";
+import { Play, Eye, X } from "lucide-react";
 
 const experiences = [
   {
@@ -11,21 +11,9 @@ const experiences = [
   },
   {
     icon: Eye,
-    title: "AR Track View",
+    title: "AR Test Drive",
     subtitle: "Nürburgring in your space",
     description: "Project the legendary Nordschleife into your environment. Walk around the Aura as it conquers every corner.",
-  },
-  {
-    icon: Gauge,
-    title: "Telemetry Live",
-    subtitle: "Real-time performance data",
-    description: "Watch g-forces, battery thermals, and torque distribution in real-time as the car pushes its limits.",
-  },
-  {
-    icon: Wind,
-    title: "Aero Dynamics",
-    subtitle: "Active wing simulation",
-    description: "See how the adaptive aerodynamics reshape at every speed—drag coefficient dropping from 0.28 to 0.19.",
   },
 ];
 
@@ -38,9 +26,10 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
 
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [arTrackViewOpen, setArTrackViewOpen] = useState(false);
 
   return (
-    <section ref={containerRef} className="relative px-6 md:px-16 py-32 max-w-7xl mx-auto overflow-hidden">
+    <section ref={containerRef} className="relative px-6 md:px-16 py-20 max-w-7xl mx-auto overflow-hidden">
       {/* Parallax ambient glow */}
       <motion.div
         style={{ y }}
@@ -69,13 +58,13 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="text-sm text-muted-foreground tracking-wider max-w-lg mb-16"
+        className="text-sm text-muted-foreground tracking-wider max-w-lg mb-10"
       >
         Not just a configurator—an emotional journey. Interact with sound, motion, and data.
       </motion.p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {experiences.map((exp, i) => (
+        {experiences.filter((exp) => exp.title !== "Telemetry Live").map((exp, i) => (
           <motion.div
             key={exp.title}
             initial={{ opacity: 0, y: 30 }}
@@ -84,7 +73,7 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
             transition={{ duration: 0.5, delay: i * 0.1 }}
             onMouseEnter={() => setHoveredIdx(i)}
             onMouseLeave={() => setHoveredIdx(null)}
-            onClick={() => onRevSound()}
+            onClick={() => (i === 1 ? setArTrackViewOpen(true) : onRevSound())}
             className="group relative glass-panel rounded-2xl p-8 cursor-pointer overflow-hidden transition-all duration-500 hover:gold-border"
           >
             {/* Hover glow */}
@@ -113,13 +102,75 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
               >
                 <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-gold" />
                 <span className="text-[10px] tracking-[0.3em] uppercase text-primary">
-                  {i === 0 ? "Hear the engine" : i === 1 ? "Coming soon — AR" : "Explore"}
+                  {i === 0 ? "Hear the engine" : "Open AI Track View"}
                 </span>
               </motion.div>
             </div>
           </motion.div>
         ))}
       </div>
+
+      {/* AI Track View overlay */}
+      <AnimatePresence>
+        {arTrackViewOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/95 backdrop-blur-md"
+            onClick={() => setArTrackViewOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.25 }}
+              className="relative w-full max-w-4xl max-h-[85vh] overflow-hidden rounded-2xl glass-panel gold-border p-8 md:p-12 flex flex-col"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setArTrackViewOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center">
+                  <Eye className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-light tracking-tight gold-text">AI Track View</h3>
+                  <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">AR Test Drive</p>
+                </div>
+              </div>
+              <p className="text-sm text-muted-foreground tracking-wider mb-6 max-w-lg">
+                Project the legendary Nordschleife into your environment. Walk around the Aura as it conquers every corner.
+              </p>
+
+              {/* Placeholder for AR / 3D track view content */}
+              <div className="flex-1 min-h-[280px] md:min-h-[360px] rounded-xl bg-secondary/50 border border-border flex items-center justify-center">
+                <div className="text-center p-8">
+                  <div className="w-16 h-16 rounded-full border-2 border-primary/30 flex items-center justify-center mx-auto mb-4">
+                    <Eye className="w-8 h-8 text-primary/60" />
+                  </div>
+                  <p className="text-sm font-medium tracking-wide text-foreground mb-1">AI Track View</p>
+                  <p className="text-xs text-muted-foreground tracking-wider max-w-sm">
+                    Place your device in your space to experience the Nürburgring with the Aura. Coming soon.
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground mt-4">
+                Point your camera at a flat surface to start
+              </p>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

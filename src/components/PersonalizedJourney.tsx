@@ -47,7 +47,7 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
   };
 
   return (
-    <section className="relative px-6 md:px-16 py-32 max-w-7xl mx-auto">
+    <section className="relative px-6 md:px-16 py-20 max-w-7xl mx-auto">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -61,7 +61,7 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl font-light tracking-tight mb-16"
+        className="text-3xl md:text-5xl font-light tracking-tight mb-10"
       >
         Your Luxury Journey
       </motion.h2>

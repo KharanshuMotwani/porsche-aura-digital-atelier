@@ -54,7 +54,7 @@ const item = {
 
 const BentoGrid = () => {
   return (
-    <section className="relative px-6 md:px-16 py-24 max-w-7xl mx-auto">
+    <section className="relative px-6 md:px-16 py-16 max-w-7xl mx-auto">
       <motion.p
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -68,7 +68,7 @@ const BentoGrid = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl font-light tracking-tight mb-16"
+        className="text-3xl md:text-5xl font-light tracking-tight mb-10"
       >
         Specifications
       </motion.h2>
