@@ -11,19 +11,21 @@ const createEngineSound = (ctx: AudioContext, type: "rev" | "idle" | "start") =>
   gainNode.connect(ctx.destination);
 
   if (type === "rev") {
-    oscillator.type = "sawtooth";
-    oscillator.frequency.setValueAtTime(80, ctx.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(220, ctx.currentTime + 0.3);
-    oscillator.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.8);
-    filter.frequency.setValueAtTime(800, ctx.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(2000, ctx.currentTime + 0.3);
-    filter.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.8);
+    oscillator.type = "square";
+    oscillator.frequency.setValueAtTime(60, ctx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.15);
+    oscillator.frequency.exponentialRampToValueAtTime(180, ctx.currentTime + 0.5);
+    oscillator.frequency.exponentialRampToValueAtTime(90, ctx.currentTime + 1.2);
+    filter.frequency.setValueAtTime(600, ctx.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(3000, ctx.currentTime + 0.15);
+    filter.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 1.2);
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 0.05);
-    gainNode.gain.linearRampToValueAtTime(0.04, ctx.currentTime + 0.4);
-    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
+    gainNode.gain.linearRampToValueAtTime(0.06, ctx.currentTime + 0.04);
+    gainNode.gain.linearRampToValueAtTime(0.09, ctx.currentTime + 0.15);
+    gainNode.gain.linearRampToValueAtTime(0.03, ctx.currentTime + 0.6);
+    gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.2);
     oscillator.start(ctx.currentTime);
-    oscillator.stop(ctx.currentTime + 0.8);
+    oscillator.stop(ctx.currentTime + 1.2);
   } else if (type === "start") {
     oscillator.type = "sawtooth";
     oscillator.frequency.setValueAtTime(40, ctx.currentTime);

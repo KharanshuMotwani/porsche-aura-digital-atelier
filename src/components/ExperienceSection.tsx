@@ -82,11 +82,9 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.1 }}
-            onMouseEnter={() => {
-              setHoveredIdx(i);
-              if (i === 0) onRevSound();
-            }}
+            onMouseEnter={() => setHoveredIdx(i)}
             onMouseLeave={() => setHoveredIdx(null)}
+            onClick={() => onRevSound()}
             className="group relative glass-panel rounded-2xl p-8 cursor-pointer overflow-hidden transition-all duration-500 hover:gold-border"
           >
             {/* Hover glow */}

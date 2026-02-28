@@ -74,7 +74,7 @@ const HeroSection = ({ onStartSound }: { onStartSound: () => void }) => {
         transition={{ duration: 1.5, delay: 1.3, ease: "easeOut" }}
         style={{ y: carY, scale: carScale }}
         className="relative z-10 w-full max-w-5xl mx-auto mt-[-2rem] px-4 cursor-pointer"
-        onMouseEnter={onStartSound}
+        onClick={onStartSound}
       >
         <img
           src={porscheHero}
