@@ -61,7 +61,7 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl font-light tracking-tight mb-10"
+        className="text-4xl md:text-6xl font-light tracking-tight mb-10 font-luxury"
       >
         Your Luxury Journey
       </motion.h2>
@@ -80,9 +80,8 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
             {steps.map((_, i) => (
               <div
                 key={i}
-                className={`h-0.5 flex-1 rounded-full transition-colors duration-500 ${
-                  i <= currentStep ? "bg-primary" : "bg-border"
-                }`}
+                className={`h-0.5 flex-1 rounded-full transition-colors duration-500 ${i <= currentStep ? "bg-primary" : "bg-border"
+                  }`}
               />
             ))}
           </div>
@@ -97,7 +96,7 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
             </span>
           </div>
 
-          <h3 className="text-2xl font-light tracking-tight mb-2">{steps[currentStep].title}</h3>
+          <h3 className="text-3xl font-light tracking-tight mb-2 font-luxury">{steps[currentStep].title}</h3>
           <p className="text-sm text-muted-foreground tracking-wider mb-8">{steps[currentStep].question}</p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -107,11 +106,10 @@ const PersonalizedJourney = ({ onRevSound }: { onRevSound: () => void }) => {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleSelect(option)}
-                className={`glass-panel rounded-xl px-6 py-4 text-left transition-all duration-300 hover:gold-border group ${
-                  selections[steps[currentStep].id] === option
-                    ? "gold-border bg-primary/5"
-                    : ""
-                }`}
+                className={`glass-panel rounded-xl px-6 py-4 text-left transition-all duration-500 hover:gold-border hover:shadow-[0_0_20px_hsl(43_74%_49%/0.15)] group hover:-translate-y-0.5 ${selections[steps[currentStep].id] === option
+                  ? "gold-border bg-primary/10 shadow-[0_0_20px_hsl(43_74%_49%/0.25)]"
+                  : ""
+                  }`}
               >
                 <span className="text-sm tracking-wide">{option}</span>
                 <ArrowRight className="w-3 h-3 text-muted-foreground group-hover:text-primary transition-colors inline ml-2 opacity-0 group-hover:opacity-100" />

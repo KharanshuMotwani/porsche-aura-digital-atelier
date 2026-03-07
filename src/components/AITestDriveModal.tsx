@@ -100,7 +100,7 @@ const AITestDriveModal = ({ open, onClose }: AITestDriveModalProps) => {
               <Video className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="text-xl md:text-2xl font-light tracking-tight gold-text">
+              <h3 className="text-xl md:text-3xl font-light tracking-tight gold-text font-luxury">
                 AI Test Drive Simulation
               </h3>
               <p className="text-[10px] tracking-[0.3em] uppercase text-muted-foreground">

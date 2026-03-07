@@ -1,212 +1,247 @@
 import { motion, useScroll, useTransform, animate } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
-import porscheHero from "@/assets/porsche-hero.png";
+import { useState, useEffect } from "react";
 
 type HeroSectionProps = {
-  onStartSound: () => void;
-  onRevSound: () => void;
+  onStartSound?: () => void;
+  onRevSound?: () => void;
   onStartTestDrive?: () => void;
 };
 
 const HeroSection = ({ onStartSound, onRevSound, onStartTestDrive }: HeroSectionProps) => {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [launchTriggered, setLaunchTriggered] = useState(false);
-  const [zeroToHundredValue, setZeroToHundredValue] = useState(0);
-
-  useEffect(() => {
-    if (!launchTriggered) return;
-    const controls = animate(0, 2.1, {
-      duration: 2.1,
-      ease: "easeOut",
-      onUpdate: (v) => setZeroToHundredValue(v),
-      onComplete: () => {
-        setLaunchTriggered(false);
-        setZeroToHundredValue(0);
-      },
-    });
-    return () => controls.stop();
-  }, [launchTriggered]);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"],
-  });
-
-  const carY = useTransform(scrollYProgress, [0, 1], [0, 120]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
-  const carScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.08]);
-
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-transparent" />
-
-      {/* Gold ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-primary/5 blur-[120px]" />
-
-      {/* Nav */}
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 py-6 md:px-16"
-      >
-        <span className="text-lg font-bold tracking-[0.3em] uppercase gold-text">Porsche</span>
-        <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground tracking-widest uppercase">
-
-        </div>
-        <span className="text-sm text-muted-foreground tracking-[0.2em] uppercase">Aura</span>
-      </motion.nav>
-
-      {/* Hero content */}
-      <motion.div style={{ opacity: textOpacity }} className="relative z-10 text-center px-4">
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="text-xs tracking-[0.5em] uppercase text-muted-foreground mb-6 mt-16"
-        >
-          The New Standard
-        </motion.p>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.7 }}
-          className="text-7xl md:text-[10rem] font-extralight tracking-tight leading-none mb-4 font-geist"
-        >
-          <span className="gold-text">Aura</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
-          className="text-muted-foreground text-sm md:text-base tracking-widest uppercase max-w-md mx-auto"
-        >
-          Electric Performance Redefined
-        </motion.p>
-      </motion.div>
-
-      {/* Hero car image with strict cinematic load animation */}
+    <section
+      className="relative w-full h-screen overflow-hidden bg-black font-sans"
+      onClick={onStartSound}
+    >
+      {/* Animated Motion Graphic Background - Ken Burns effect */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 4, ease: "easeOut" }} // Subtle 2% push-in over 4s
-        style={{ y: carY, scale: carScale }}
-        className="relative z-10 w-full max-w-5xl mx-auto mt-[-2rem] px-4 cursor-pointer overflow-hidden"
-        onClick={onStartSound}
-      >
-        {/* The Car Image */}
-        <motion.img
-          src={porscheHero}
-          alt="Porsche Aura concept car"
-          className="w-full h-auto object-contain relative z-10"
-          initial={{ filter: "brightness(0) contrast(1.2)" }}
-          animate={{ filter: "brightness(1) contrast(1)" }}
-          transition={{ duration: 3, delay: 0.5, ease: "easeInOut" }}
+        animate={{ scale: [1.02, 1.08, 1.02] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat w-full h-full object-cover"
+        style={{ backgroundImage: 'url("/porsche-bg.jpg")' }}
+      ></motion.div>
+
+      {/* Motion Graphic Floating Gold Particles */}
+      {Array.from({ length: 40 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full shadow-[0_0_15px_#eab308] pointer-events-none z-0"
+          style={{
+            background: "linear-gradient(135deg, hsl(43 74% 49%), hsl(43 90% 65%))",
+            width: Math.random() * 4 + 1 + "px",
+            height: Math.random() * 4 + 1 + "px",
+            left: Math.random() * 100 + "%",
+            top: Math.random() * 100 + "%",
+          }}
+          animate={{
+            y: [0, -150 - Math.random() * 100],
+            x: [0, (Math.random() - 0.5) * 100],
+            opacity: [0, Math.random() * 0.8 + 0.2, 0],
+          }}
+          transition={{
+            duration: Math.random() * 4 + 3,
+            repeat: Infinity,
+            delay: Math.random() * 3,
+            ease: "easeInOut"
+          }}
         />
+      ))}
 
-        {/* Thin Gold Light Sweep */}
-        <motion.div
-          className="absolute inset-0 z-20 top-[40%] h-[20%] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent blur-xl mix-blend-screen"
-          initial={{ x: "-100%", opacity: 0 }}
-          animate={{ x: "100%", opacity: [0, 1, 0] }}
-          transition={{ duration: 2.5, ease: "easeInOut", delay: 0.2 }}
-        />
-
-        {/* Headlight power on effect - Cool white glow */}
-        <motion.div
-          className="absolute inset-0 z-20 flex justify-between px-[20%]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.5, delay: 1.5, ease: "easeOut" }}
-        >
-          <div className="w-24 h-24 bg-blue-50/20 rounded-full blur-[30px] mix-blend-screen" />
-          <div className="w-24 h-24 bg-blue-50/20 rounded-full blur-[30px] mix-blend-screen" />
-        </motion.div>
-
-        {/* Shimmering Gold Accents */}
-        <motion.div
-          className="absolute inset-0 z-20 pointer-events-none"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: [0, 0.4, 0.1, 0.3] }}
-          transition={{ duration: 4, times: [0, 0.3, 0.6, 1], repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
-        >
-          <div className="absolute top-[42%] left-[28%] w-16 h-8 bg-[#D4AF37]/20 blur-xl rounded-full mix-blend-screen" />
-          <div className="absolute top-[42%] right-[28%] w-16 h-8 bg-[#D4AF37]/20 blur-xl rounded-full mix-blend-screen" />
-        </motion.div>
-
-        {/* Reflection fade at the bottom to blend seamlessly into black */}
-        <div className="absolute bottom-0 left-0 right-0 h-1/3 z-30 bg-gradient-to-t from-background to-transparent pointer-events-none" />
-      </motion.div>
-
-      {/* Stats bar - 2.1s (with fill), 750 PS, Launch button, 610 km */}
+      {/* Pulsing Cinematic Brake Light Glow */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 2 }}
-        className="relative z-10 flex flex-wrap items-center justify-center gap-8 md:gap-16 mt-6 mb-8"
-      >
-        {/* 0-100 km/h with fill animation */}
-        <div className="text-center">
-          <p className="text-2xl md:text-4xl font-light tracking-tight gold-text tabular-nums">
-            {launchTriggered ? `${zeroToHundredValue.toFixed(1)}s` : "2.1s"}
-          </p>
-          <p className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground mt-1">0-100 km/h</p>
-          <div className="mt-2 w-32 md:w-48 h-2 bg-secondary rounded-full overflow-hidden">
-            <motion.div
-              className="h-full bg-primary rounded-full"
-              initial={{ width: "0%" }}
-              animate={{ width: launchTriggered ? "100%" : "0%" }}
-              transition={{ duration: 2.1, ease: "easeOut" }}
+        animate={{ opacity: [0.4, 0.7, 0.4] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[52%] left-1/2 -translate-x-1/2 w-[50%] h-[15%] bg-red-600/30 blur-[80px] pointer-events-none z-0"
+      />
+
+      {/* Subtle Color Grading Overlay */}
+      <div className="absolute inset-0 bg-[#0a0f18]/10 mix-blend-overlay"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/95 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none"></div>
+
+      {/* The Thin Framing Border */}
+      <div className="absolute inset-6 md:inset-12 border border-white/[0.15] rounded border-b-2 pointer-events-none z-10 flex flex-col backdrop-blur-[1px]">
+
+        {/* Header inside the frame */}
+        <header className="flex justify-between items-center px-6 md:px-10 pt-8 pointer-events-auto">
+          {/* Logo */}
+          <div className="flex items-center mix-blend-screen bg-transparent">
+            {/* White-background logo: using mix-blend-multiply directly on image works if the background is light, but since the background is dark, we need a different approach or a cleanly cut out PNG. 
+                Using the SVG from world vector logo as an object/mask is cleaner, or we can use a known isolated transparent PNG. */}
+            <img
+              src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png"
+              alt="Porsche"
+              className="h-16 md:h-20 w-auto opacity-100 drop-shadow-2xl"
+              onError={(e) => {
+                e.currentTarget.src = "https://cdn.worldvectorlogo.com/logos/porsche-6.svg";
+              }}
             />
           </div>
-        </div>
 
-        {/* 750 PS */}
-        <div className="text-center">
-          <p className="text-2xl md:text-4xl font-light tracking-tight gold-text">750</p>
-          <p className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground mt-1">PS</p>
-        </div>
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center gap-10 text-[10px] font-bold tracking-[0.15em] uppercase text-white/90 font-sans">
+            <a href="#" className="hover:text-white hover:text-shadow-glow hover:-translate-y-0.5 transition-all">Build your Porsche</a>
+            <a href="#" className="hover:text-white hover:text-shadow-glow hover:-translate-y-0.5 transition-all">Compare</a>
+            <a href="#" className="hover:text-white hover:text-shadow-glow hover:-translate-y-0.5 transition-all">Find a dealer</a>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onStartTestDrive?.();
+                onRevSound?.();
+              }}
+              className="bg-gradient-to-r from-[#ecd253] to-[#d4ad1e] text-black px-6 py-2.5 hover:brightness-110 transition-all shadow-[0_4px_20px_rgba(212,175,55,0.3)] hover:shadow-[0_4px_25px_rgba(212,175,55,0.5)] active:scale-95"
+            >
+              Test Drive
+            </button>
+          </nav>
+        </header>
 
-        {/* 610 km Range */}
-        <div className="text-center">
-          <p className="text-2xl md:text-4xl font-light tracking-tight gold-text">610</p>
-          <p className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-muted-foreground mt-1">km Range</p>
-        </div>
-
-        {/* Launch button - right side */}
-        <motion.button
-          type="button"
-          onClick={() => {
-            setLaunchTriggered(true);
-            onRevSound();
-          }}
-          className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-primary/50 bg-primary/10 text-primary text-xs md:text-sm font-medium tracking-widest uppercase hover:bg-primary/20 hover:border-primary/70 transition-colors"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-        >
-          Launch
-        </motion.button>
-
-        {/* Virtual Test Drive - hold W to drive */}
-        {onStartTestDrive && (
-          <motion.button
-            type="button"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 2.2 }}
-            onClick={onStartTestDrive}
-            className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-white/20 bg-white/5 text-white/80 text-xs md:text-sm font-medium tracking-widest uppercase hover:bg-white/10 hover:border-primary/50 hover:text-primary backdrop-blur-sm transition-colors"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+        {/* Center Title */}
+        <div className="absolute top-[25%] md:top-[28%] w-full text-center pointer-events-none z-0">
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+            className="text-white/95 text-6xl md:text-8xl tracking-wider drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)]"
+            style={{ fontFamily: "'Great Vibes', cursive", textShadow: "0px 2px 20px rgba(0,0,0,0.8)" }}
           >
-            Virtual Test Drive
-          </motion.button>
-        )}
-      </motion.div>
+            911 Carrera
+          </motion.h1>
+        </div>
 
+
+        {/* Hotspots */}
+
+        {/* Hotspot 1: New Dimension (Top Left) */}
+        <Hotspot
+          title="NEW DIMENSION OF"
+          subtitle="DRIVING PLEASURE"
+          top="46%"
+          left="32%"
+          lineDirection="left"
+          lineWidth="160px"
+          onClick={onRevSound}
+        />
+
+        {/* Hotspot 2: Performance (Bottom Left) */}
+        <Hotspot
+          title="PERFORMANCE"
+          top="68%"
+          left="24%"
+          lineDirection="left"
+          lineWidth="110px"
+          lineOffset="bottom"
+          hookDirection="down"
+          onClick={onRevSound}
+        />
+
+        {/* Hotspot 3: Human Centered (Top Right) */}
+        <Hotspot
+          title="HUMAN CENTERED"
+          top="49%"
+          left="68%"
+          lineDirection="right"
+          lineWidth="100px"
+          onClick={onRevSound}
+        />
+
+        {/* Hotspot 4: Advance Safety (Bottom Right) */}
+        <Hotspot
+          title="ADVANCE"
+          subtitle="SAFETY"
+          top="66%"
+          left="77%"
+          lineDirection="right"
+          lineWidth="100px"
+          lineOffset="bottom"
+          hookDirection="down"
+          onClick={onRevSound}
+        />
+
+      </div>
     </section>
+  );
+};
+
+// Tooltip/Hotspot component mirroring the design
+const Hotspot = ({
+  title,
+  subtitle,
+  top,
+  left,
+  lineDirection,
+  lineWidth,
+  lineOffset = "center",
+  hookDirection = "none",
+  onClick
+}: {
+  title: string,
+  subtitle?: string,
+  top: string,
+  left: string,
+  lineDirection: 'left' | 'right',
+  lineWidth: string,
+  lineOffset?: 'top' | 'center' | 'bottom',
+  hookDirection?: 'down' | 'up' | 'none',
+  onClick?: () => void
+}) => {
+  return (
+    <div
+      className="absolute z-20 pointer-events-auto"
+      style={{ top, left, transform: 'translate(-50%, -50%)' }}
+    >
+      <div className="relative group flex items-center justify-center">
+
+        {/* The actual dot button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick?.();
+          }}
+          className="relative w-[28px] h-[28px] rounded-full bg-gradient-to-b from-[#fde66d] to-[#d4ad1e] border-2 border-[#fff]/40 shadow-[0_0_30px_rgba(255,220,100,0.8)] flex items-center justify-center text-white z-10 hover:scale-110 hover:brightness-110 active:scale-95 transition-all"
+        >
+          <span className="text-white text-lg font-light leading-none mb-0.5 text-shadow-sm">+</span>
+
+          {/* Dashed outer glowing ring */}
+          <div className="absolute inset-[-6px] rounded-full border-[1.5px] border-dotted border-[#fde66d]/70 group-hover:rotate-180 transition-transform duration-1000 ease-linear pointer-events-none"></div>
+        </button>
+
+        {/* Connector Line and Text */}
+        <div
+          className={`absolute pointer-events-none flex flex-col justify-end
+            ${lineDirection === 'left' ? 'items-end right-1/2 mr-3' : 'items-start left-1/2 ml-3'}
+            ${lineOffset === 'top' ? 'bottom-2' : lineOffset === 'bottom' ? 'top-3' : 'top-1/2 -translate-y-1/2'}
+            opacity-80 group-hover:opacity-100 transition-opacity duration-500
+          `}
+          style={{ width: lineWidth }}
+        >
+          {/* Text Label */}
+          <div className={`mb-1.5 flex flex-col ${lineDirection === 'left' ? 'items-end' : 'items-start'}`}>
+            <div className="text-[10px] md:text-[11px] font-semibold text-white tracking-[0.08em] whitespace-nowrap leading-tight uppercase border-b border-white/80 pb-1 inline-block" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>
+              {title}
+            </div>
+            {subtitle && (
+              <div className="text-[10px] md:text-[11px] font-semibold text-white tracking-[0.08em] whitespace-nowrap leading-tight uppercase border-b border-white/80 pb-1 mt-0.5 inline-block" style={{ textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>
+                {subtitle}
+              </div>
+            )}
+          </div>
+
+          {/* The solid white line with dot and hook */}
+          <div className="flex flex-col relative w-full">
+            <div className="h-[1.5px] bg-white/90 w-full relative drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+              {/* Small dot at the far end of the horizontal line */}
+              <div className={`absolute top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-white rounded-full shadow-[0_0_5px_rgba(0,0,0,0.5)] ${lineDirection === 'left' ? 'left-0 -ml-0.5' : 'right-0 -mr-0.5'}`}></div>
+            </div>
+
+            {/* Dropping/Rising vertical hook at the end of the line */}
+            {hookDirection !== 'none' && (
+              <div className={`w-[1.5px] h-4 bg-white/50 absolute ${lineDirection === 'left' ? 'left-0' : 'right-0'} ${hookDirection === 'down' ? 'top-0' : 'bottom-0'}`}></div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -58,7 +58,7 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl font-light tracking-tight mb-6"
+        className="text-4xl md:text-6xl font-light tracking-tight mb-6 font-luxury"
       >
         Feel The Performance
       </motion.h2>
@@ -87,7 +87,7 @@ const ExperienceSection = ({ onRevSound }: { onRevSound: () => void }) => {
               else if (i === 1) setArTrackViewOpen(true);
               else setAiTestDriveOpen(true);
             }}
-            className="group relative glass-panel rounded-2xl p-8 cursor-pointer overflow-hidden transition-all duration-500 hover:gold-border"
+            className="group relative glass-panel rounded-2xl p-8 cursor-pointer overflow-hidden transition-all duration-500 hover:gold-border hover:shadow-[0_0_30px_hsl(43_74%_49%/0.15)] hover:-translate-y-1"
           >
             {/* Hover glow */}
             <motion.div

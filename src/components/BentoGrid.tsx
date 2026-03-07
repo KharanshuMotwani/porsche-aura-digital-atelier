@@ -68,7 +68,7 @@ const BentoGrid = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-3xl md:text-5xl font-light tracking-tight mb-10"
+        className="text-4xl md:text-6xl font-light tracking-tight mb-10 font-luxury"
       >
         Specifications
       </motion.h2>
@@ -84,11 +84,11 @@ const BentoGrid = () => {
           <motion.div
             key={spec.title}
             variants={item}
-            className={`glass-panel rounded-xl p-6 md:p-8 group hover:gold-border transition-colors duration-500 ${spec.span}`}
+            className={`glass-panel rounded-xl p-6 md:p-8 group hover:gold-border transition-all duration-500 hover:shadow-[0_0_25px_hsl(43_74%_49%/0.15)] hover:-translate-y-1 ${spec.span}`}
           >
-            <spec.icon className="w-5 h-5 text-primary mb-4 group-hover:text-gold-glow transition-colors" />
-            <h3 className="text-lg md:text-xl font-medium tracking-tight mb-2">{spec.title}</h3>
-            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed">{spec.desc}</p>
+            <spec.icon className="w-6 h-6 text-primary mb-4 group-hover:text-gold-glow transition-colors" />
+            <h3 className="text-xl md:text-2xl font-light tracking-tight mb-3 font-luxury">{spec.title}</h3>
+            <p className="text-sm text-muted-foreground leading-relaxed transition-colors group-hover:text-foreground/90">{spec.desc}</p>
           </motion.div>
         ))}
       </motion.div>
