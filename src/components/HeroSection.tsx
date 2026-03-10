@@ -264,16 +264,16 @@ const HeroSection = ({ onRevSound, onStartTestDrive }: HeroSectionProps) => {
       {/* Static Framing Border & UI */}
       <div className="absolute inset-6 md:inset-12 border border-white/[0.08] rounded pointer-events-none z-40 flex flex-col">
         <header className="flex justify-between items-center px-6 md:px-10 pt-8 pointer-events-auto">
-          <div className="flex items-center mix-blend-screen bg-transparent">
+          <Link to="/" className="flex items-center z-50">
             <img
-              src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png"
+              src="https://upload.wikimedia.org/wikipedia/commons/1/12/Porsche_wordmark.svg"
               alt="Porsche"
-              className="h-16 md:h-20 w-auto opacity-90 drop-shadow-2xl brightness-150"
+              className="h-4 md:h-5 w-auto opacity-90 drop-shadow-2xl invert"
               onError={(e) => {
-                e.currentTarget.src = "https://cdn.worldvectorlogo.com/logos/porsche-6.svg";
+                e.currentTarget.style.display = "none";
               }}
             />
-          </div>
+          </Link>
 
           <motion.nav
             className="hidden md:flex items-center gap-10 text-[10px] font-bold tracking-[0.15em] uppercase text-white/90 font-sans"
